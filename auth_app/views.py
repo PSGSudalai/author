@@ -12,7 +12,7 @@ def register_view(request):
     else:
         initial_data ={'username':'','password1':'','password2':''}
         form=UserCreationForm(initial=initial_data)
-        return render(request,'auth/register.html',{'form':form})
+    return render(request,'auth/register.html',{'form':form})
     
     
 def login_view(request):
@@ -25,7 +25,7 @@ def login_view(request):
     else:
         initial_data ={'username':'','password':''}
         form=AuthenticationForm(initial=initial_data)
-        return render(request,'auth/register.html',{'form':form})
+    return render(request,'auth/login.html',{'form':form})
 
 def logout_view(request):
    logout(request)
