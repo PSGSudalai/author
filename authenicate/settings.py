@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'auth_app'    
+    'auth_app',
+    'crispy_forms'    
 ]
 
 AUTHENTICATION_BACKENDS=[
@@ -115,6 +116,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+CRISPY_TEMPLATE_PACK ='bootstrap4'
 
 
 # Static files (CSS, JavaScript, Images)

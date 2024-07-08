@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
 from django.contrib.auth import login,logout
+from auth_app.models import PostModel
+from .form import PostModelForm
 
 def register_view(request):
     if request.method=='POST':
@@ -32,4 +34,18 @@ def logout_view(request):
    return redirect('login')
 
 def dashboard_view(request):
-    return render(request,'dashboard.html')
+    posts =PostModel.objects.all()
+    if request.method =='POST':
+        form = PostModelForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            return redirect('dashboard')
+    else:
+        form =PostModelForm()
+    context ={
+        'posts':posts,
+        'form':form
+    }
+    return render(request,'dashboard.html',context)

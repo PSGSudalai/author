@@ -1,5 +1,5 @@
 {% extends 'layout/app.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <!-- <h1>Dashboard :{{ request.user.username }}</h1>
 <a href="{% url 'register' %}" class="btn btn-dark">Logout</a> -->
@@ -9,11 +9,16 @@
         <div class="col-md-4">
             <div class="card my-3 shadow">
                 <div class="card-body">
-                    <h3>Form</h3>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <input type="submit" value="Post" class="btn btn-primary btn-block">
+                    </form>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
+            {% for post in posts%}
             <div class="card shadow my-2">
                 <div class="card-body">
                     <div class="row">
@@ -21,50 +26,17 @@
                             <img src="" alt="img">
                         </div>
                         <div class="col-md-8">
-                            <small>20th June 2021</small>
-                        </div>
+                            <small>{{ post.date_created }}</small>
                         <hr>
-                        <a href="" class="h3">First Post</a>
+                        <a href="" class="h3">{{ post.title }}</a>
                         <p class="text-justify my-3">
-                            Navbar navigation links build on our .nav options with their own modifier class and require the use of toggler classes for proper responsive styling. Navigation in navbars will also grow to occupy as much horizontal space as possible to keep your navbar contents securely aligned.
+                           {{ post.content }}
                         </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card shadow my-2">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="" alt="img">
-                        </div>
-                        <div class="col-md-8">
-                            <small>20th June 2021</small>
-                        </div>
-                        <hr>
-                        <a href="" class="h3">First Post</a>
-                        <p class="text-justify my-3">
-                            Navbar navigation links build on our .nav options with their own modifier class and require the use of toggler classes for proper responsive styling. Navigation in navbars will also grow to occupy as much horizontal space as possible to keep your navbar contents securely aligned.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="card shadow my-2">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="" alt="img">
-                        </div>
-                        <div class="col-md-8">
-                            <small>20th June 2021</small>
-                        </div>
-                        <hr>
-                        <a href="" class="h3">First Post</a>
-                        <p class="text-justify my-3">
-                            Navbar navigation links build on our .nav options with their own modifier class and require the use of toggler classes for proper responsive styling. Navigation in navbars will also grow to occupy as much horizontal space as possible to keep your navbar contents securely aligned.
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
