@@ -24,7 +24,9 @@
                 <span class="text-danger">{{ form.password.errors}}</span>
             </div>
             <button type="submit" class=" btn btn-dark">Login</button>
+            <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
         </form>
+        
     </div>
 </div>
 {% endblock content %}
