@@ -1,5 +1,4 @@
 {% extends 'layout/app.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
 <!-- <h1>Dashboard :{{ request.user.username }}</h1>
 <a href="{% url 'register' %}" class="btn btn-dark">Logout</a> -->
@@ -11,13 +10,17 @@
                 <div class="card-body">
                     <form method="POST">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {{ form }}
                         <input type="submit" value="Post" class="btn btn-primary btn-block">
                     </form>
                 </div>
             </div>
-        </div>
+        </div>  
         <div class="col-md-8">
+            <div class="input-group mx-5">
+                <input type="text" placeholder="Search">
+                <button type="button" class="btn btn-primary">Search</button>
+            </div>
             {% for post in posts%}
             <div class="card shadow my-2">
                 <div class="card-body">
@@ -30,8 +33,12 @@
                         <hr>
                         <a href="" class="h3">{{ post.title }}</a>
                         <p class="text-justify my-3">
-                           {{ post.content }}
+                           {{ post.content|slice:":100" }}{% if post.content|length > 50 %}...{% endif %}
                         </p>
+                        <p class="text-justify my-3">
+                            {{ post.tags}}
+                        </p>
+                        <a href="{{ post.get_absolute_url }}" class="action-link">Read More</a>
                         </div>
                     </div>
                 </div>
