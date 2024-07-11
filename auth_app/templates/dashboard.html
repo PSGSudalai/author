@@ -17,10 +17,10 @@
             </div>
         </div>  
         <div class="col-md-8">
-            <div class="input-group mx-5">
-                <input type="text" placeholder="Search">
-                <button type="button" class="btn btn-primary">Search</button>
-            </div>
+           <form action="{ url 'search'}" method="GET">
+            <input type="text" name="Search" placeholder="search...">
+            <button type="submit" class="btn btn-primary">Search</button>
+           </form>
             {% for post in posts%}
             <div class="card shadow my-2">
                 <div class="card-body">
@@ -36,9 +36,9 @@
                            {{ post.content|slice:":100" }}{% if post.content|length > 50 %}...{% endif %}
                         </p>
                         <p class="text-justify my-3">
-                            {{ post.tags}}
+                            {{ post.tags }}
                         </p>
-                        <a href="{% 'homepage' %}" class="action-link">Read More</a>
+                        <a href="{% url 'blog' post.id %}" class="action-link">Read More</a>
                         </div>
                     </div>
                 </div>

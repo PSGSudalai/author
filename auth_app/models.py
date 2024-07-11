@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -17,8 +18,30 @@ class PostModel(models.Model):
     
 
 
-class Blogs(models.Model):
-    view_count=models.IntegerField(default=0)
+class comments(models.Model):
+    host=models.ForeignKey(User,on_delete=models.CASCADE,null=False,blank=False)
+    blog=models.ForeignKey(PostModel,on_delete=models.CASCADE)
+    text=models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    lastupdated=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering =('lastupdated','-created')
+
+    def __str__(self):
+        return self.text
+class CommentForm(forms.ModelForm):
+    # user = forms.ModelChoiceField(
+    #     queryset=User.objects.all(),
+    #     widget=forms.HiddenInput(),
+    # )
+
+    class Meta:
+        model = comments
+        # fields = ['user', 'text']
+        fields = ['text']
+
     
 
     

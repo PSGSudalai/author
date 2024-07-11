@@ -1,19 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>No of Views:{{views.count}}</p>
-    <div class="blog-content">
-        <div class="blog-card">
-            <h3 class="blog-title">{{blog.title}}</h3>
-            <div class="blog_description">
-                {{blog.content}}
+{% extends 'layout/app.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row mt-5 pt-5">
+            <div class="col-md-8">
+                <div class="blog-content">
+                    <div class="blog-card">
+                        <h3 class="blog-title">{{blogs.title}}</h3>
+                        <div class="blog_description">
+                            {{blogs.content}}
+                        </div>
+                    </div>
+                </div>
             </div>
+            </div>
+            </div>
+            <div class="container">
+                <div class="row pt-5 mt-5">
+                    <div class="Comment">
+                        <b>Comment</b>
+                    </div>
+                    <div class="comment-box">
+                           {% for c in comment %}
+                            <div class="review">
+                               <p>{{c.host.username}}:{{c.text}}</p>
+                               {% if request.user == c.host or request.user.is_superuser %}
+                               <a href="{% url 'edit.cmt' c.id post.id %}"></a>
+                               <a href="{% url 'delete.cmt' c.id post.id %}"></a>
+                               {% endif %}
+                            </div>
+                           {% endfor %}
+               
+                           <form action="" method="POST">
+                            {% csrf_token %}
+                               <input type="text" class="form-control">
+                               <button type="submit" class="btn btn-primary">Submit</button>
+                           </form>
+                       </div>
+                </div>
+            </div>
+   
         </div>
     </div>
-</body>
-</html>
+{% endblock content %}
