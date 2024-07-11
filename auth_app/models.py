@@ -16,6 +16,11 @@ class PostModel(models.Model):
        return self.title
     
 
+
+class Blogs(models.Model):
+    view_count=models.IntegerField(default=0)
+    
+
     
 
 

@@ -1,8 +1,9 @@
+from functools import cache
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
 from django.contrib.auth import login,logout
 from django.urls import reverse
-from auth_app.models import PostModel
+from auth_app.models import Blogs, PostModel
 from .form import PostModelForm
 
 def register_view(request):
@@ -56,8 +57,21 @@ def get_absolute_url(self):
 class Meta:
         ordering = ['-last_updated','-created']
 
+# @login_required(login_url='login')
+def blog(request,pk):
+    blog=Blogs.objects.get(id=pk)
+    view_count_key =f'blog_view_count_{pk}'
+    view_count =cache.get(view_count_key,0)
+
+    if not request.session.get(f'visited_blog_{pk}',False):
+        view_count +=1
+        request.session[f'visited_blog_{pk}'] = True
+        cache.set(view_count_key,view_count)
+    context={'blogs':blog,'view_count':view_count}
+    return render(request,'blogpage.html',context)
 
 def search(request):
     search_obj=request.GET.get('search')
     result=PostModel.objects.filter(title=search_obj)
     return render
+
