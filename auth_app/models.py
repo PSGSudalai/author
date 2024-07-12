@@ -31,16 +31,6 @@ class comments(models.Model):
 
     def __str__(self):
         return self.text
-class CommentForm(forms.ModelForm):
-    # user = forms.ModelChoiceField(
-    #     queryset=User.objects.all(),
-    #     widget=forms.HiddenInput(),
-    # )
-
-    class Meta:
-        model = comments
-        # fields = ['user', 'text']
-        fields = ['text']
 
     
 

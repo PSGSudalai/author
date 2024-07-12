@@ -1,11 +1,11 @@
 from functools import cache
 from django.shortcuts import render,redirect
-from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm,CommentForm
+from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
 
 from django.contrib.auth import login,logout
 from django.urls import reverse
-from auth_app.models import  PostModel
-from .form import PostModelForm
+from auth_app.models import  PostModel, comments
+from .form import CommentForm, PostModelForm
 
 def register_view(request):
     if request.method=='POST':
@@ -76,44 +76,36 @@ def search(request):
 
 
 def create_cmt(request,pk):
-    if request.method=='POST'
-
-
-def edit_cmt(request,pk,pk1):
-    pass
-
-
-def delete_cmt(request,pk,pk1):
-
-    def create_Cmt(request,pk):
-    form = CommentForm()
-    if request.method == 'POST':
+    form=CommentForm()
+    if request.method=='POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.instance.blog_id = pk
+            form.instance.post_id =pk
             form.instance.host=request.user
             form.save()
             return redirect(f'/blog/{pk}')
-    context = {"form": form}
-    return render(request, 'apps/comments_form.html', context)
+        
+    context ={'form':form}
+    return render(request,'comment_form.html',context)
 
-def edit_Cmt(request,pk,pk1):
-    comment=Comments.objects.get(id=pk)
-    form = CommentForm(instance=comment)
-    if request.method == 'POST':
-        form = CommentForm(request.POST,instance=comment)
+
+def edit_cmt(request,pk,pk1):
+    comment=comments.objects.get(id =pk)
+    form=CommentForm(instance=comment)
+    if request.method=='POST':
+        form=CommentForm(request.POST,instance=comment)
         if form.is_valid():
-            form.instance.blog_id = pk1
-            form.instance.host=request.user
+            form.instance.blog_id =pk1
+            form.instance.host =request.user
             form.save()
-            return redirect(f'/blog/{pk1}') 
-    context = {"form": form}
-    return render(request, 'apps/comments_form.html', context)
+            return redirect(f'/blog/{pk1}')
+    context={'form':form}
+    return render(request,'comment_form',context)
 
 
-def delete_Cmt(request,pk,pk1):
-    comment=Comments.objects.get(id=pk)
+def delete_cmt(request,pk,pk1):
+    comment=comments.objects.get(id=pk)
     comment.delete()
     return redirect(f'/chat/{pk1}')
 
-    pass
+
