@@ -5,22 +5,12 @@
   
 <div class="container">
     <div class="row mt-5 pt-5">
-        <div class="col-md-4">
-            <div class="card my-3 shadow">
-                <div class="card-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form }}
-                        <input type="submit" value="Post" class="btn btn-primary btn-block">
-                    </form>
-                </div>
-            </div>
-        </div>  
-        <div class="col-md-8">
+        <div class="col-md-12">
            <form action="{ url 'search'}" method="GET">
             <input type="text" name="Search" placeholder="search...">
             <button type="submit" class="btn btn-primary">Search</button>
            </form>
+           <a href="" class="create-blog-button">Add Title</a>
             {% for post in posts%}
             <div class="card shadow my-2">
                 <div class="card-body">

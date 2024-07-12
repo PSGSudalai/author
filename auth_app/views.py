@@ -38,20 +38,27 @@ def logout_view(request):
 
 def dashboard_view(request):
     posts =PostModel.objects.all()
+    return render(request,'dashboard.html')
+
+def blogs(request):
+    form =PostModelForm()
     if request.method =='POST':
         form = PostModelForm(request.POST)
         if form.is_valid():
-            instance = form.save(commit=False)
+            title=form.cleaned_data['title']
+            content=form.cleaned_data['content']
+            instance = form.save()
             instance.author = request.user
             instance.save()
             return redirect('dashboard')
-    else:
-        form =PostModelForm()
-    context ={
-        'posts':posts,
+        else:
+            form =PostModelForm()
+        context ={
         'form':form
-    }
-    return render(request,'dashboard.html',context)
+        }
+    return render(request,'create_blogs.html',context)
+
+
 
 # def get_absolute_url(self):
 #         return reverse('blog', args=[str(self.pk)])
@@ -76,17 +83,16 @@ def search(request):
 
 
 def create_cmt(request,pk):
-    form=CommentForm()
-    if request.method=='POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form.instance.post_id =pk
-            form.instance.host=request.user
-            form.save()
-            return redirect(f'/blog/{pk}')
-        
-    context ={'form':form}
-    return render(request,'comment_form.html',context)
+#     form=CommentForm()
+#     if request.method=='POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             form.instance.post_id =pk
+#             form.instance.host=request.user
+#             form.save()
+#             return redirect(f'/blog/{pk}')``
+    # context ={'form':form}
+    return render(request,'comment_form.html')
 
 
 def edit_cmt(request,pk,pk1):
