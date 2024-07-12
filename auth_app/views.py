@@ -36,26 +36,26 @@ def logout_view(request):
    logout(request)
    return redirect('login')
 
-def dashboard_view(request):
-    posts =PostModel.objects.all()
-    return render(request,'dashboard.html')
 
-def blogs(request):
+def dashboard_view(request):
+    posts = PostModel.objects.all()
+    return render(request, 'dashboard.html', {'posts': posts})
+
+
+def create_blog(request):
     form =PostModelForm()
     if request.method =='POST':
         form = PostModelForm(request.POST)
         if form.is_valid():
             title=form.cleaned_data['title']
             content=form.cleaned_data['content']
-            instance = form.save()
+            instance = form.save(commit=False)
             instance.author = request.user
             instance.save()
             return redirect('dashboard')
-        else:
-            form =PostModelForm()
-        context ={
+    context ={
         'form':form
-        }
+    }
     return render(request,'create_blogs.html',context)
 
 

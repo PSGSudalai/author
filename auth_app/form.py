@@ -3,7 +3,7 @@ from .models import PostModel, comments
 
 
 class PostModelForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={'row':4}))
+    # content = forms.CharField(widget=forms.Textarea(attrs={'row':4}))
 
     class Meta:
         model =PostModel
