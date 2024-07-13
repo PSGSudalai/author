@@ -1,7 +1,7 @@
 from functools import cache
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
-
+from django.db.models import Q
 from django.contrib.auth import login,logout
 from django.urls import reverse
 from auth_app.models import  PostModel, comments
@@ -36,10 +36,12 @@ def logout_view(request):
    logout(request)
    return redirect('login')
 
-
 def dashboard_view(request):
     posts = PostModel.objects.all()
-    return render(request, 'dashboard.html', {'posts': posts})
+    searching = request.GET.get('dashboard', '')
+    blog = PostModel.objects.filter(Q(title__icontains=searching)).distinct()
+    return render(request, 'dashboard.html', {'posts': posts, 'blog': blog})
+
 
 
 def create_blog(request):
@@ -71,28 +73,21 @@ def blog(request,pk):
     context={'blogs':blog}
     return render(request,'blogpage.html',context)
 
-def search(request):
-    search_obj=request.GET.get('Search')
-    result=PostModel.objects.filter(title=search_obj)
-    if result:
-        results=result
-    else:
-        results=False
-    return render(request,'dashboard.html',{'results':results})
+
 
 
 
 def create_cmt(request,pk):
-#     form=CommentForm()
-#     if request.method=='POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             form.instance.post_id =pk
-#             form.instance.host=request.user
-#             form.save()
-#             return redirect(f'/blog/{pk}')``
-    # context ={'form':form}
-    return render(request,'comment_form.html')
+    form=CommentForm()
+    if request.method=='POST':
+        form = CommentForm(request.POST)
+        if form.is_valid(commit=False):
+            form.instance.post_id =pk
+            form.instance.host=request.user
+            form.save()
+            return redirect(f'blog/{pk}')
+    context ={'form':form}
+    return render(request,'comment_form.html',context)
 
 
 def edit_cmt(request,pk,pk1):

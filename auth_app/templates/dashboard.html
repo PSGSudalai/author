@@ -6,22 +6,23 @@
 <div class="container">
     <div class="row mt-5 pt-5">
         <div class="col-md-12">
-           <form action="{ url 'search'}" method="GET">
-            <input type="text" name="Search" placeholder="search...">
-            <button type="submit" class="btn btn-primary">Search</button>
-           </form>
+            <form method="GET" action="{% url 'dashboard' %}">
+                <input type="text" name="search" class="form" placeholder="Search...">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            
            <a href="{% url 'create' %}" class="create-blog-button">Add Title</a>
             {% for post in posts %}
             <div class="card shadow my-2">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <img src="" alt="img">
-                        </div>
+                        </div> -->
                         <div class="col-md-8">
                             <small>{{ post.date_created }}</small>
                         <hr>
-                        <a href="" class="h3">{{ post.title }}</a>
+                        <a href="" class="h3" style="text-decoration: none;">{{ post.title }}</a>
                         <p class="text-justify my-3">
                            {{ post.content|slice:":100" }}{% if post.content|length > 50 %}...{% endif %}
                         </p>
