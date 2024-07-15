@@ -13,6 +13,6 @@ urlpatterns=[
     path('edit_cmt/<int:pk>/<int:pk1>/',views.edit_cmt,name='edit_cmt'),
     path('delete_cmt/<int:pk>/<int:pk1>/',views.delete_cmt,name='delete_cmt'),
 
-    path('custom_tag/',create_tag,name='custom_tag')
+    path('custom_tag/',views.create_tag,name='custom_tag')
 
 ]

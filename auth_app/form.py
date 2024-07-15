@@ -4,10 +4,13 @@ from .models import PostModel, comments, Tags
 
 class PostModelForm(forms.ModelForm):
     # content = forms.CharField(widget=forms.Textarea(attrs={'row':4}))
-
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tags.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+    )
     class Meta:
         model =PostModel
-        fields=('title','content')
+        fields=('title','content','tags')
 
 
 
@@ -25,4 +28,4 @@ class CommentForm(forms.ModelForm):
 class TagForm(forms.ModelForm):
     class Meta:
         model =Tags
-        fields =['all']
+        fields =['tags']

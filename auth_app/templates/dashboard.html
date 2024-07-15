@@ -5,7 +5,14 @@
   
 <div class="container">
     <div class="row mt-5 pt-5">
-        <div class="col-md-12">
+        <div class="col-md-4">
+            <h4>Tags</h4>
+            <a href="{% url 'dashboard' %}?q=">all</a>
+            {% for tag in tags %}
+            <a href="{% url 'dashboard'%}?search={{tag.tags}}">{{tag.tags}}</a>
+            {% endfor %}
+        </div>
+        <div class="col-md-8">
             <form method="GET" action="{% url 'dashboard' %}">
                 <input type="text" name="search" class="form" placeholder="Search...">
                 <button type="submit" class="btn btn-primary">Search</button>

@@ -9,8 +9,10 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{form.as_p}}
+                        <a href="{% url 'custom_tag' %}">Add New Tags </a>
                         <input type="submit" value="Post" class="btn btn-primary btn-block">
                     </form>
+                    
                 </div>
             </div>
         </div>  

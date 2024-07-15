@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class PostModel(models.Model):
     title = models.CharField(max_length=100)
     content =models.TextField()
-    # tags = models.CharField(max_length=50)
+    tags = models.ManyToManyField(Tags,blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -33,12 +33,10 @@ class comments(models.Model):
         return self.text
 
     
-class Tags:
+class Tags(models.Model):
     tags = models.CharField(max_length=50)
     
-    class Meta:
-        ordering =('tags') 
-        
+
     def __str__(self):
         return self.tags
     
