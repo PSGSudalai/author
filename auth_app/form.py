@@ -1,7 +1,11 @@
 from django import forms
 from .models import PostModel, comments, Tags
 
-
+class TagForm(forms.ModelForm):
+    class Meta:
+        model =Tags
+        fields =['tags']
+        
 class PostModelForm(forms.ModelForm):
     # content = forms.CharField(widget=forms.Textarea(attrs={'row':4}))
     tags = forms.ModelMultipleChoiceField(
@@ -25,7 +29,3 @@ class CommentForm(forms.ModelForm):
         # fields = ['user', 'text']
         fields = ['text']
 
-class TagForm(forms.ModelForm):
-    class Meta:
-        model =Tags
-        fields =['tags']

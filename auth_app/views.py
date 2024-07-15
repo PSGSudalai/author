@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.contrib.auth import login,logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from auth_app.models import  PostModel, comments
+from auth_app.models import  PostModel, Tags, comments
 from .form import CommentForm, PostModelForm, TagForm
 
 def register_view(request):
@@ -40,7 +40,8 @@ def logout_view(request):
 def dashboard_view(request):
     searching = request.GET.get('search', '')
     posts = PostModel.objects.filter(Q(title__icontains=searching))
-    return render(request, 'dashboard.html', {'posts': posts})
+    tags= Tags.objects.all()
+    return render(request, 'dashboard.html', {'posts': posts,'tags':tags})
 
 
 
