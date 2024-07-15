@@ -118,3 +118,21 @@ def create_tag(request):
     return render(request,'newtag.html',context)
 
 
+def edit(request,pk):
+    blog =PostModel.objects.get(id=pk)
+    form=PostModelForm(instance=blog)
+    if request.method=='POST':
+        if form.is_valid():
+            new_blog = form.save(commit=True)
+            new_blog.host = request.user
+            new_blog.save()
+            return redirect('dashboard')
+    context={
+        'form':form,'blog':blog
+    }
+    return render(request,'dashboard.html',context)
+
+def delete(request,pk):
+    blog=PostModel.objects.get(id=pk)
+    blog.delete()
+    return redirect('dashboard')
