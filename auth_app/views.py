@@ -4,8 +4,9 @@ from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
 from django.db.models import Q
 from django.contrib.auth import login,logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from auth_app.models import  PostModel, comments
-from .form import CommentForm, PostModelForm
+from .form import CommentForm, PostModelForm, TagForm
 
 def register_view(request):
     if request.method=='POST':
@@ -37,13 +38,13 @@ def logout_view(request):
    return redirect('login')
 
 def dashboard_view(request):
-    posts = PostModel.objects.all()
-    searching = request.GET.get('dashboard', '')
-    blog = PostModel.objects.filter(Q(title__icontains=searching)).distinct()
-    return render(request, 'dashboard.html', {'posts': posts, 'blog': blog})
+    searching = request.GET.get('search', '')
+    posts = PostModel.objects.filter(Q(title__icontains=searching))
+    return render(request, 'dashboard.html', {'posts': posts})
 
 
 
+@login_required(login_url='login')
 def create_blog(request):
     form =PostModelForm()
     if request.method =='POST':
@@ -61,11 +62,6 @@ def create_blog(request):
     return render(request,'create_blogs.html',context)
 
 
-
-# def get_absolute_url(self):
-#         return reverse('blog', args=[str(self.pk)])
-# class Meta:
-#         ordering = ['-last_updated','-created']
 
 # @login_required(login_url='login')
 def blog(request,pk):
@@ -108,5 +104,16 @@ def delete_cmt(request,pk,pk1):
     comment=comments.objects.get(id=pk)
     comment.delete()
     return redirect(f'/chat/{pk1}')
+
+
+def create_tag(request):
+    form=TagForm()
+    if request.method=='POST':
+        form=TagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('create')
+    context ={'form':form}
+    return render(request,'newtag.html',context)
 
 

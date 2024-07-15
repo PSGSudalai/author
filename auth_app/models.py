@@ -33,7 +33,14 @@ class comments(models.Model):
         return self.text
 
     
-
+class Tags:
+    tags = models.CharField(max_length=50)
+    
+    class Meta:
+        ordering =('tags') 
+        
+    def __str__(self):
+        return self.tags
     
 
 
