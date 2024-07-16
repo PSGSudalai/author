@@ -108,12 +108,7 @@ a:hover {
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <a href="javascript:void(0);" id="toggleHidden">Add New Tags</a> 
-                        <div id="hiddenForm" class="hidden">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <input type="submit" value="Submit" id="submitHidden" class="btn btn-secondary btn-block mt-3">
-                        </div>
+                        <a href="{% url 'custom_tag' %}">Add New Tags</a>                        
                         <input type="submit" value="Post" class="btn btn-primary btn-block mt-3">
                     </form>
                 </div>

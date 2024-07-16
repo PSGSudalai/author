@@ -1,5 +1,5 @@
 from functools import cache
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.forms import UserCreationForm ,AuthenticationForm
 from django.db.models import Q
 from django.contrib.auth import login,logout
@@ -74,18 +74,23 @@ def blog(request,pk):
 
 
 
-def create_cmt(request,pk):
-    form=CommentForm()
-    if request.method=='POST':
-        form = CommentForm(request.POST)
-        if form.is_valid(commit=False):
-            form.instance.post_id =pk
-            form.instance.host=request.user
-            form.save()
-            return redirect(f'blog/{pk}')
-    context ={'form':form}
-    return render(request,'comment_form.html',context)
+def create_cmt(request, pk):
+    post = get_object_or_404(PostModel, pk=pk)
+    form = CommentForm()
 
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.host = request.user
+            comment.save()
+            return redirect('blog', pk=pk) 
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'comment_form.html', context)
 
 def edit_cmt(request,pk,pk1):
     comment=comments.objects.get(id =pk)
@@ -118,19 +123,23 @@ def create_tag(request):
     return render(request,'newtag.html',context)
 
 
-def edit(request,pk):
-    blog =PostModel.objects.get(id=pk)
-    form=PostModelForm(instance=blog)
-    if request.method=='POST':
+def edit(request, pk):
+    blog = get_object_or_404(PostModel, id=pk)
+    if request.method == 'POST':
+        form = PostModelForm(request.POST, instance=blog)
         if form.is_valid():
-            new_blog = form.save(commit=True)
+            new_blog = form.save(commit=False)
             new_blog.host = request.user
             new_blog.save()
             return redirect('dashboard')
-    context={
-        'form':form,'blog':blog
+    else:
+        form = PostModelForm(instance=blog)
+    
+    context = {
+        'form': form,
+        'blog': blog
     }
-    return render(request,'dashboard.html',context)
+    return render(request, 'create_blogs.html', context)
 
 def delete(request,pk):
     blog=PostModel.objects.get(id=pk)
