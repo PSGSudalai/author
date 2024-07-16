@@ -67,30 +67,29 @@ def create_blog(request):
 # @login_required(login_url='login')
 def blog(request,pk):
     blog=PostModel.objects.get(id=pk)
-    context={'blogs':blog}
+    comment =comments.objects.filter(blog=blog)
+    context={'blog':blog,'comment':comment}
     return render(request,'blogpage.html',context)
 
 
 
 
-
 def create_cmt(request, pk):
-    post = get_object_or_404(PostModel, pk=pk)
-    form = CommentForm()
-
+    blog = get_object_or_404(PostModel, pk=pk)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.host = request.user
-            comment.save()
-            return redirect('blog', pk=pk) 
+        comment_text = request.POST.get("comment")
+        if comment_text:
+            comments.objects.create(
+                text=comment_text,
+                host=request.user,
+                blog=blog
+            )
+        return redirect('blog', pk=blog.id)
+    else:
+        form = CommentForm()
     
-    context = {
-        'form': form,
-    }
-    return render(request, 'comment_form.html', context)
+    return render(request, 'comment_form.html', {'form': form, 'blog': blog})
+
 
 def edit_cmt(request,pk,pk1):
     comment=comments.objects.get(id =pk)

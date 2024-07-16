@@ -134,14 +134,14 @@ body {
                         <p>
                             Tags:
                             {% for blogtag in tags.all %}
-                            <a href="{% url 'dashboard' %}?search ={{ blogtag.tags }}">#{{ blogtag.tags }}</a>
+                            <a href="{% url 'dashboard' %}?search = {{ blogtag.tags }}">#{{ blogtag.tags }}</a>
                             {% endfor %}
                         </p>
         
                         <p>
                         <a href="{% url 'edit' post.id %}">Edit</a>
                         <a href="{% url 'delete' post.id %}">Delete</a>
-                       </p>
+                        </p>
                         <a href="{% url 'blog' post.id %}" class="action-link">Read More</a>
                         </div>
                     </div>
