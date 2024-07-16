@@ -102,13 +102,13 @@ def edit_cmt(request,pk,pk1):
             form.save()
             return redirect(f'/blog/{pk1}')
     context={'form':form}
-    return render(request,'comment_form',context)
+    return render(request,'comment_form.html',context)
 
 
 def delete_cmt(request,pk,pk1):
     comment=comments.objects.get(id=pk)
     comment.delete()
-    return redirect(f'/chat/{pk1}')
+    return redirect(f'/blog/{pk1}')
 
 
 def create_tag(request):

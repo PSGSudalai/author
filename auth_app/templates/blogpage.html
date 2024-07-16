@@ -122,12 +122,12 @@
             <b>Comment</b>
         </div>
         <div class="comment-box">
-            {% for c in comments %}
+            {% for c in comment %}
             <div class="review">
                 <p>{{ c.host }}: {{ c.text }}</p>
                 {% if request.user == c.host or request.user.is_superuser %}
-                <a href="{% url 'edit.cmt' c.id blog.id %}">Edit</a>
-                <a href="{% url 'delete.cmt' c.id blog.id %}">Delete</a>
+                <a href="{% url 'edit_cmt' c.id blog.id %}">Edit</a>
+                <a href="{% url 'delete_cmt' c.id blog.id %}">Delete</a>
                 {% endif %}
             </div>
             {% endfor %}
