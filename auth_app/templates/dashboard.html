@@ -2,17 +2,115 @@
 {% block content %}
 <!-- <h1>Dashboard :{{ request.user.username }}</h1>
 <a href="{% url 'register' %}" class="btn btn-dark">Logout</a> -->
-  
+  <style>
+    /* General Styles */
+body {
+    background: linear-gradient(135deg, #8ce9fa 0%, #2575fc 100%);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+/* Shadow for buttons */
+.btn {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    .form-inline input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .form-inline button {
+        width: 100%;
+    }
+
+    .create-blog-button {
+        width: 100%;
+    }
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+  </style>
 <div class="container">
     <div class="row mt-5 pt-5">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <h4>Tags</h4>
             <a href="{% url 'dashboard' %}?q=">all</a>
             {% for tag in tags %}
             <a href="{% url 'dashboard'%}?search={{tag.tags}}">{{tag.tags}}</a>
             {% endfor %}
-        </div>
-        <div class="col-md-8">
+        </div> -->
+        <div class="col-md-12">
             <form method="GET" action="{% url 'dashboard' %}">
                 <input type="text" name="search" class="form" placeholder="Search...">
                 <button type="submit" class="btn btn-primary">Search</button>
@@ -41,8 +139,8 @@
                         </p>
         
                         <p>
-                        <a href="{% url 'edit' author.id %}">Edit</a>
-                        <a href="{% url 'delete' author.id  %}">Delete</a>
+                        <a href="{% url 'edit' post.id %}">Edit</a>
+                        <a href="{% url 'delete' post.id %}">Delete</a>
                        </p>
                         <a href="{% url 'blog' post.id %}" class="action-link">Read More</a>
                         </div>
