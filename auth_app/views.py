@@ -39,7 +39,7 @@ def logout_view(request):
 
 def dashboard_view(request):
     searching = request.GET.get('search', '')
-    tags= Tags.objects.filter()
+    tags= Tags.objects.all()
     posts = PostModel.objects.filter((Q(title__icontains=searching)|Q(tags__tags__icontains=searching))).distinct()
     return render(request, 'dashboard.html', {'posts': posts,'tags':tags})
 
