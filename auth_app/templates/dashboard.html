@@ -151,12 +151,12 @@ body {
                         <p>
                             Tags:
                             {% for blogtag in tags.all %}
-                            <a href="{% url 'dashboard' %}?search = {{ blogtag.tags }}">#{{ blogtag.tags }}</a>
+                            <a href="{% url 'dashboard' %}?search={{ blogtag.tags_tags }}">#{{ blogtag.tags_tags }}</a>
                             {% endfor %}
                         </p>
         
                         <p>
-                        {% if request.user == request.user.is_superuser%}
+                        {% if request.user == post.author or request.user.is_superuser%}
                         <a href="{% url 'edit' post.id %}">Edit</a>
                         <a href="{% url 'delete' post.id %}">Delete</a>
                         {% endif %}

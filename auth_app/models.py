@@ -12,7 +12,7 @@ class Tags(models.Model):
 class PostModel(models.Model):
     title = models.CharField(max_length=100)
     content =models.TextField()
-    tags = models.ManyToManyField(Tags,blank=True)
+    tags = models.ForeignKey(Tags,on_delete=models.CASCADE,blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
