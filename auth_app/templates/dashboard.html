@@ -5,13 +5,22 @@
   <style>
     /* General Styles */
 body {
-   background: linear-gradient(135deg, #8ce9fa 0%, #2575fc 100%);
+   background: linear-gradient(135deg, #8ce9fa 0%, #8ce9fa 100%);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
 }
+.card{
+
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+}
+
+
 
 /* Button Styles */
 .btn-primary {
@@ -103,14 +112,22 @@ body {
   </style>
 <div class="container">
     <div class="row mt-5 pt-5">
-        <!-- <div class="col-md-4">
-            <h4>Tags</h4>
-            <a href="{% url 'dashboard' %}?q=">all</a>
-            {% for tag in tags %}
-            <a href="{% url 'dashboard'%}?search={{tag.tags}}">{{tag.tags}}</a>
-            {% endfor %}
-        </div> -->
-        <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="card-shadow my-2">
+                <div class="card-body">
+                    <form action="{% url 'dashboard' %}" method="GET">
+                        <h4>Tags</h4>
+                        <a href="{% url 'dashboard' %}?q=">all</a>
+                        {% for tag in tags %}
+                        <div>
+                            <a href="{% url 'dashboard'%}?search={{tag.tags}}">{{tag.tags}}</a>
+                        </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
             <form method="GET" action="{% url 'dashboard' %}">
                 <input type="text" name="search" class="form" placeholder="Search...">
                 <button type="submit" class="btn btn-primary">Search</button>
