@@ -39,8 +39,8 @@ def logout_view(request):
 
 def dashboard_view(request):
     searching = request.GET.get('search', '')
-    posts = PostModel.objects.filter((Q(title__icontains=searching)|Q(tags__icontains=searching))).distinct()
-    tags= Tags.objects.all()
+    tags= Tags.objects.filter()
+    posts = PostModel.objects.filter((Q(title__icontains=searching)|Q(tags__tags__icontains=searching))).distinct()
     return render(request, 'dashboard.html', {'posts': posts,'tags':tags})
 
 
@@ -111,15 +111,18 @@ def delete_cmt(request,pk,pk1):
     return redirect(f'/blog/{pk1}')
 
 
+
 def create_tag(request):
-    form=TagForm()
-    if request.method=='POST':
-        form=TagForm(request.POST)
+    if request.method == 'POST':
+        form = TagForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('create')
-    context ={'form':form}
-    return render(request,'newtag.html',context)
+            return redirect('create')  
+    else:
+        form = TagForm()
+
+    context = {'form': form}
+    return render(request, 'newtag.html', context)
 
 
 def edit(request, pk):
